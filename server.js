@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const connectDB = require("./src/config/mongo_config"); // ✅ Add this
 
 // Load environment variables
 require("dotenv").config();
@@ -9,35 +10,48 @@ const app = express();
 
 // Basic middleware
 app.use(express.json({ limit: "10mb" }));
-app.use(cors({
-  origin: process.env.CLIENT_URL || "*",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "*",
+    credentials: true,
+  })
+);
 app.use(cookieParser());
+
+// Connect to the database
+connectDB().catch(console.error);
+
+// Import routers
+const UserRouter = require("./src/routes/userRoute");
+const RoomRouter = require("./src/routes/roomRoute");
+
+// Add routes gradually
+app.use("/user", UserRouter);
+app.use("/rooms", RoomRouter);
 
 // Root route
 app.get("/", (req, res) => {
-  res.json({ 
+  res.json({
     message: "Vie Stay Server is running!",
     status: "OK",
     timestamp: new Date().toISOString(),
-    env: process.env.NODE_ENV || "development"
+    env: process.env.NODE_ENV || "development",
   });
 });
 
 // Health check
 app.get("/health", (req, res) => {
-  res.json({ 
+  res.json({
     status: "healthy",
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
 // Test API endpoint
 app.get("/api/test", (req, res) => {
-  res.json({ 
+  res.json({
     message: "API is working",
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -46,7 +60,7 @@ app.use("*", (req, res) => {
   res.status(404).json({
     error: "Route not found",
     path: req.originalUrl,
-    method: req.method
+    method: req.method,
   });
 });
 
@@ -55,7 +69,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
     error: "Something went wrong!",
-    message: err.message
+    message: err.message,
   });
 });
 
