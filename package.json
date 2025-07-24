@@ -4,7 +4,7 @@
   "description": "Backend API for Da Nang Rental Platform",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "dev": "nodemon server.js",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -12,9 +12,6 @@
     "seed": "node scripts/seedData.js",
     "migrate": "node scripts/migrate.js",
     "setup": "node scripts/setup.js"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   },
   "jest": {
     "testEnvironment": "node",
@@ -42,9 +39,11 @@
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^7.1.5",
     "express-validator": "^7.0.1",
+    "fs": "^0.0.1-security",
     "google-auth-library": "^10.0.0",
     "helmet": "^7.1.0",
     "hpp": "^0.2.3",
+    "https": "^1.0.0",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
     "mongoose": "^8.0.3",

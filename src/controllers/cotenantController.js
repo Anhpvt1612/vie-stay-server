@@ -1,6 +1,6 @@
 const Room = require("../models/Room");
 const User = require("../models/User");
-const CoTenantRequest = require("../models/CoTenantRequest");
+const CoTenantRequest = require("../models/CotenantRequest");
 const multer = require("multer");
 const cloudinary = require("../config/cloudinary"); // Sử dụng file config có sẵn
 
