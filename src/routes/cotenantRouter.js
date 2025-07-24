@@ -6,7 +6,7 @@ const {
   approveCoTenantRequest,
   rejectCoTenantRequest,
   getCoTenantRequestsByLandlord,
-} = require("../controllers/coTenantcontroller");
+} = require("../controllers/cotenantController");
 const {
   protect,
   restrictTo,
