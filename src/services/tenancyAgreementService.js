@@ -75,7 +75,8 @@ class AgreementConfirmationService {
         startDate: agreementTerms.startDate,
         endDate: agreementTerms.endDate,
         confirmationToken,
-        baseUrl: process.env.FRONTEND_URL || "http://localhost:3000",
+        baseUrl:
+          process.env.FRONTEND_URL || "https://vie-stay-client.vercel.app",
         utilityRates,
         additionalFees,
       };

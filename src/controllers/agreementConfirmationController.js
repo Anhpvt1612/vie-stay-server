@@ -113,7 +113,7 @@ exports.handlePaymentReturn = async (req, res) => {
 
     if (!vnp_TxnRef) {
       return res.redirect(
-        `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/failed?error=missing_txn_ref`
+        `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/failed?error=missing_txn_ref`
       );
     }
 
@@ -143,18 +143,18 @@ exports.handlePaymentReturn = async (req, res) => {
         status: "success",
       });
 
-      const redirectUrl = `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/success?${params.toString()}`;
+      const redirectUrl = `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/success?${params.toString()}`;
       res.redirect(redirectUrl);
     } else {
       const errorParam = encodeURIComponent(result.error || "payment_failed");
       res.redirect(
-        `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/failed?error=${errorParam}`
+        `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/failed?error=${errorParam}`
       );
     }
   } catch (error) {
     console.error("❌ === PAYMENT RETURN ERROR ===", error);
     res.redirect(
-      `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/failed?error=server_error`
+      `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/failed?error=server_error`
     );
   }
 };

@@ -14,14 +14,14 @@ router.get("/", protect, async (req, res) => {
       status = "success", // only show successful transactions by default
       search,
       sortBy = "createdAt",
-      sortOrder = "desc"
+      sortOrder = "desc",
     } = req.query;
 
     const userId = req.user._id;
 
     // Build query
     const query = { user: userId };
-    
+
     // Add status filter (default to success)
     if (status) {
       query.status = status;
@@ -60,9 +60,9 @@ router.get("/", protect, async (req, res) => {
         $group: {
           _id: "$type",
           totalAmount: { $sum: "$amount" },
-          count: { $sum: 1 }
-        }
-      }
+          count: { $sum: 1 },
+        },
+      },
     ]);
 
     const summaryStats = {
@@ -71,10 +71,10 @@ router.get("/", protect, async (req, res) => {
       totalPayments: 0,
       depositCount: 0,
       withdrawalCount: 0,
-      paymentCount: 0
+      paymentCount: 0,
     };
 
-    summary.forEach(item => {
+    summary.forEach((item) => {
       if (item._id === "deposit") {
         summaryStats.totalDeposits = item.totalAmount;
         summaryStats.depositCount = item.count;
@@ -97,23 +97,22 @@ router.get("/", protect, async (req, res) => {
           totalTransactions,
           limit: parseInt(limit),
           hasNext: parseInt(page) < totalPages,
-          hasPrev: parseInt(page) > 1
+          hasPrev: parseInt(page) > 1,
         },
-        summary: summaryStats
+        summary: summaryStats,
       },
       // For backward compatibility
       transactions,
       totalPages,
       currentPage: parseInt(page),
-      totalTransactions
+      totalTransactions,
     });
-
   } catch (error) {
     console.error("Error fetching transactions:", error);
     res.status(500).json({
       success: false,
       message: "Không thể tải lịch sử giao dịch",
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -132,8 +131,8 @@ router.get("/summary", protect, async (req, res) => {
         dateFilter = {
           createdAt: {
             $gte: new Date(now.getFullYear(), now.getMonth(), now.getDate()),
-            $lt: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
-          }
+            $lt: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1),
+          },
         };
         break;
       case "week":
@@ -141,32 +140,32 @@ router.get("/summary", protect, async (req, res) => {
         dateFilter = {
           createdAt: {
             $gte: weekStart,
-            $lt: new Date()
-          }
+            $lt: new Date(),
+          },
         };
         break;
       case "month":
         dateFilter = {
           createdAt: {
             $gte: new Date(now.getFullYear(), now.getMonth(), 1),
-            $lt: new Date(now.getFullYear(), now.getMonth() + 1, 1)
-          }
+            $lt: new Date(now.getFullYear(), now.getMonth() + 1, 1),
+          },
         };
         break;
       case "year":
         dateFilter = {
           createdAt: {
             $gte: new Date(now.getFullYear(), 0, 1),
-            $lt: new Date(now.getFullYear() + 1, 0, 1)
-          }
+            $lt: new Date(now.getFullYear() + 1, 0, 1),
+          },
         };
         break;
     }
 
-    const query = { 
-      user: userId, 
+    const query = {
+      user: userId,
       status: "success",
-      ...dateFilter 
+      ...dateFilter,
     };
 
     const summary = await Transaction.aggregate([
@@ -176,15 +175,15 @@ router.get("/summary", protect, async (req, res) => {
           _id: "$type",
           totalAmount: { $sum: "$amount" },
           count: { $sum: 1 },
-          avgAmount: { $avg: "$amount" }
-        }
-      }
+          avgAmount: { $avg: "$amount" },
+        },
+      },
     ]);
 
     // Get recent transactions
     const recentTransactions = await Transaction.find({
       user: userId,
-      status: "success"
+      status: "success",
     })
       .sort({ createdAt: -1 })
       .limit(5)
@@ -195,16 +194,15 @@ router.get("/summary", protect, async (req, res) => {
       data: {
         summary,
         recentTransactions,
-        timeframe
-      }
+        timeframe,
+      },
     });
-
   } catch (error) {
     console.error("Error fetching transaction summary:", error);
     res.status(500).json({
       success: false,
       message: "Không thể tải tóm tắt giao dịch",
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -217,27 +215,28 @@ router.get("/:id", protect, async (req, res) => {
 
     const transaction = await Transaction.findOne({
       _id: id,
-      user: userId
-    }).populate("user", "name email").lean();
+      user: userId,
+    })
+      .populate("user", "name email")
+      .lean();
 
     if (!transaction) {
       return res.status(404).json({
         success: false,
-        message: "Không tìm thấy giao dịch"
+        message: "Không tìm thấy giao dịch",
       });
     }
 
     res.status(200).json({
       success: true,
-      data: transaction
+      data: transaction,
     });
-
   } catch (error) {
     console.error("Error fetching transaction:", error);
     res.status(500).json({
       success: false,
       message: "Không thể tải thông tin giao dịch",
-      error: error.message
+      error: error.message,
     });
   }
 });

@@ -97,7 +97,7 @@ const handleVNPayReturn = async (req, res) => {
   } catch (error) {
     console.error("Error handling VNPay return:", error);
     return res.redirect(
-      `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/failure?code=server_error`
+      `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/failure?code=server_error`
     );
   }
 };

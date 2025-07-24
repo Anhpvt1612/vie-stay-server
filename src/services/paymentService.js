@@ -93,7 +93,7 @@ class PaymentService {
       const vnpHashSecret =
         process.env.VNPAY_HASH_SECRET || "TGHRDW9977MIGV71O2383I2E4R9DMRS4";
 
-      const vnpReturnUrl = `${process.env.BACKEND_URL || "http://localhost:8080"}/agreement-confirmations/payment/vnpay/return`;
+      const vnpReturnUrl = `${process.env.BACKEND_URL || "https://vie-stay-server.vercel.app"}/agreement-confirmations/payment/vnpay/return`;
 
       const createDate = new Date()
         .toISOString()
@@ -195,7 +195,7 @@ class PaymentService {
         console.log("❌ Invalid signature");
         return {
           success: false,
-          redirectUrl: `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/failure?code=97`,
+          redirectUrl: `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/failure?code=97`,
         };
       }
 
@@ -227,7 +227,7 @@ class PaymentService {
         console.log("❌ Payment not found for transactionId:", transactionId);
         return {
           success: false,
-          redirectUrl: `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/failure?code=transaction_not_found`,
+          redirectUrl: `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/failure?code=transaction_not_found`,
         };
       }
 
@@ -291,7 +291,7 @@ class PaymentService {
             payment,
             message:
               "Payment completed and tenant added to room, but contract signing failed. Please contact support.",
-            redirectUrl: `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/success?transactionId=${transactionId}&amount=${payment.amount}&confirmationId=${payment.agreementConfirmationId._id}&warning=contract_failed`,
+            redirectUrl: `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/success?transactionId=${transactionId}&amount=${payment.amount}&confirmationId=${payment.agreementConfirmationId._id}&warning=contract_failed`,
           };
         }
 
@@ -303,7 +303,7 @@ class PaymentService {
           payment,
           tenancyAgreement: result.tenancyAgreement,
           roomUpdate: result.roomUpdate,
-          redirectUrl: `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/success?transactionId=${transactionId}&amount=${payment.amount}&confirmationId=${payment.agreementConfirmationId._id}`,
+          redirectUrl: `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/success?transactionId=${transactionId}&amount=${payment.amount}&confirmationId=${payment.agreementConfirmationId._id}`,
         };
       } else {
         payment.status = "failed";
@@ -315,14 +315,14 @@ class PaymentService {
         return {
           success: false,
           payment,
-          redirectUrl: `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/failure?code=${responseCode}`,
+          redirectUrl: `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/failure?code=${responseCode}`,
         };
       }
     } catch (error) {
       console.error("VNPay return error:", error.message);
       return {
         success: false,
-        redirectUrl: `${process.env.CLIENT_URL || "http://localhost:3000"}/payment/failure?code=server_error`,
+        redirectUrl: `${process.env.CLIENT_URL || "https://vie-stay-client.vercel.app"}/payment/failure?code=server_error`,
       };
     }
   }
