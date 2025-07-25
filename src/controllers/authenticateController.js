@@ -14,7 +14,7 @@ const {
   VERIFICATION_EMAIL_TEMPLATE,
 } = require("../templates/emailTemplates.js");
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client(process.env.GG_CLIENT_ID);
 
 // Email Transporter
 const transporter = nodemailer.createTransport({
