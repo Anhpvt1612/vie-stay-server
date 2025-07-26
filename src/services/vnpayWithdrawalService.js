@@ -12,7 +12,7 @@ class VNPayWithdrawalService {
     this.vnpHashSecret =
       process.env.VNPAY_SECRET || "TGHRDW9977MIGV71O2383I2E4R9DMRS4";
     // ✅ SỬA: Đổi return URL về withdrawal route
-    this.vnpReturnUrl = `${process.env.BACKEND_URL || "https://vie-stay-server.vercel.app"}/api/withdrawals/vnpay/return`;
+    this.vnpReturnUrl = `${process.env.BACKEND_URL || "https://vie-stay-server.onrender.com"}/api/withdrawals/vnpay/return`;
   }
 
   sortObject(obj) {

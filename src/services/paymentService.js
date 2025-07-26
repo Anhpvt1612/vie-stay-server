@@ -93,7 +93,7 @@ class PaymentService {
       const vnpHashSecret =
         process.env.VNPAY_HASH_SECRET || "TGHRDW9977MIGV71O2383I2E4R9DMRS4";
 
-      const vnpReturnUrl = `${process.env.BACKEND_URL || "https://vie-stay-server.vercel.app"}/agreement-confirmations/payment/vnpay/return`;
+      const vnpReturnUrl = `${process.env.BACKEND_URL || "https://vie-stay-server.onrender.com"}/agreement-confirmations/payment/vnpay/return`;
 
       const createDate = new Date()
         .toISOString()
